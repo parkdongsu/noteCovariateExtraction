@@ -12,6 +12,7 @@ createTextToVecSetting <- function(noteConceptId = c(44814637),
                                    nGram = c(1L),
                                    buildTopidModelMinFrac = 0.001,
                                    buildTopidModelMaxFrac = 0.5,
+                                   useKoNLP = FALSE,
                                    sampleSize=-1){
 
     if(sum(limitedMedicalTermOnlyLanguage %in% c('KOR','ENG')==FALSE) >=1){
@@ -31,6 +32,7 @@ createTextToVecSetting <- function(noteConceptId = c(44814637),
                               nGram = nGram,
                               buildTopidModelMinFrac = buildTopidModelMinFrac,
                               buildTopidModelMaxFrac = buildTopidModelMaxFrac,
+                              useKoNLP = useKoNLP,
                               ##Glove
                               useGloVe = FALSE,
                               ##Autoencoder

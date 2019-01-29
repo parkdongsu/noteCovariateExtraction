@@ -110,6 +110,12 @@ getTopicFromNoteSettings <- function(connection,
             rawcovariateId[[i]] <- setdiff(unique(rawcovariateId[[i]]),unlist(CommonWord[as.numeric(names(rawcovariateId[i]))]))
         }
 
+        #NLP
+        if (covariateSettings$useKoNLP == TRUE){
+            rawcovariateId <- lapply(rawcovariateId, function(x) paste(x,collapse =' '))
+            rawcovariateId <- lapply(rawcovariateId, function(x) KoNLP::extractNoun(x))
+        }
+
         #Frequency
         if( (covariateSettings$buildTopidModelMinFrac != 0) | (covariateSettings$buildTopidModelMaxFrac != 1)){
             #unique
@@ -290,6 +296,8 @@ getTopicFromNoteSettings <- function(connection,
         rawcovariateId <- strsplit(rawcovariateId,' ')
     }
 
+    #FIX : NOTE_TITLE only 1 = NO execute
+
     #Remove common words by NOTE_TITLE
     noteTitleDf <- data.frame('word' = levels(rawCovariates$noteTitle), 'levels' = seq(levels(rawCovariates$noteTitle)),stringsAsFactors = F)
     detailsType <- dplyr::left_join(data.frame('word' = as.vector(rawCovariates[['noteTitle']][]),stringsAsFactors = F),noteTitleDf,by ='word')
@@ -302,6 +310,11 @@ getTopicFromNoteSettings <- function(connection,
         rawcovariateId[[i]] <- setdiff(unique(rawcovariateId[[i]]),unlist(CommonWord[as.numeric(names(rawcovariateId[i]))]))
     }
 
+    #NLP
+    if (covariateSettings$useKoNLP == TRUE){
+        rawcovariateId <- lapply(rawcovariateId, function(x) paste(x,collapse =' '))
+        rawcovariateId <- lapply(rawcovariateId, function(x) KoNLP::extractNoun(x))
+    }
     #Frequency
     if( (covariateSettings$buildTopidModelMinFrac != 0) | (covariateSettings$buildTopidModelMaxFrac != 1)){
         #unique
